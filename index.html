@@ -1,15 +1,25 @@
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <meta charset="UTF-8">
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <link rel="stylesheet" href="web-page-translator.css">
+  <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <script src="web-page-translator.js"></script>
   <script>
     var translations = [
       {en: "How are you?", zh: "你好嗎？"},
-      {en: "Hello", zh: "你好"}    
+      {en: "Hello", zh: "你好"}
     ];
     var languages = [
       {code: 'en', name: 'English'},
-      {code: 'en', name: '中文'}
-    ]
+      {code: 'zh', name: '中文'}
+    ];
     $(function() {
       window.translator = WebPageTranslator($, languages, translations);
       window.translator.drawInterface();
@@ -18,6 +28,6 @@
 </head>
 <body>
   <h1>Hello</h1>
-  <p>This is a test. How are you? That's great!</p>  
+  <p>This is a test. How are you? That's great!</p>
 </body>
 </html>
