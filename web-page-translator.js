@@ -34,12 +34,9 @@ function WebPageTranslator($, languages, translations, opts) {
       // If item[currentLanguage] replace it on the page with item[toLanguage]
     },
 
-    drawInterfaceInElement: function($e) {      
+    drawInterface: function($e) {      
       // TODO: Draw the user interface inside $e
-    },
-
-    drawInterfaceGlobal: function() {
-      // TODO: Create a sticky bar on the top of window and draw the user interface in that
+      // If $e does not exist, create an element that is pinned to the top of the page.
     },
 
     availableLanguage: function() {

@@ -1,0 +1,23 @@
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <script>
+    var translations = [
+      {en: "How are you?", zh: "你好嗎？"},
+      {en: "Hello", zh: "你好"}    
+    ];
+    var languages = [
+      {code: 'en', name: 'English'},
+      {code: 'en', name: '中文'}
+    ]
+    $(function() {
+      window.translator = WebPageTranslator($, languages, translations);
+      window.translator.drawInterface();
+    })
+  </script>
+</head>
+<body>
+  <h1>Hello</h1>
+  <p>This is a test. How are you? That's great!</p>  
+</body>
+</html>
