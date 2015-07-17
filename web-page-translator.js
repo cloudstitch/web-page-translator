@@ -22,30 +22,86 @@ function WebPageTranslator($, languages, translations, opts) {
   // Default to English
   opts.defaultLanguage = opts.defaultLanguage || 'en';
 
-  // Set the current langauge
+  // Set the current language
   var currentLanguage = opts.defaultLanguage;
 
   return {
-    /*
-     * toLanguage:    e.g., 'es'
+    /**
+     * @param toLanguage {string} Language code.
      */
     translate: function(toLanguage) {
-      // TODO: For each item in translations
-      // If item[currentLanguage] replace it on the page with item[toLanguage]
-    },
+      if (toLanguage == currentLanguage)
+        return;
 
-    drawInterface: function($e) {      
-      // TODO: Draw the user interface inside $e
-      // If $e does not exist, create an element that is pinned to the top of the page.
-    },
+      var textNodes = this.textNodes();
 
-    availableLanguage: function() {
-      /*
-       * TODO: Return a list of items in the LANGUAGES object
-       * that also have data in the TRANSLATIONS object
-       */
+      textNodes.each(function(idx, node) {
+        $.each(translations, function(idx, translation) {
+            node.nodeValue = node.nodeValue.replace(translation[currentLanguage], translation[toLanguage]);
+        });
+      });
+
+      currentLanguage = toLanguage;
+    },
+    /**
+     * @param $e {jQuery} jQuery-encapsulated DOM element to append the UI into.
+     */
+    drawInterface: function($e) {
+      var availableLanguages = this.availableLanguages(),
+          menu = $('<ul class="wpt-menu"></ul>'),
+          target = $e || $('body'),
+          self = this;
+
+      $.each(availableLanguages, function(idx, language) {
+        var el = $('<li><a href="#' + language.code + '">' + language.name + '</li>');
+
+        if (language.code == currentLanguage)
+          el.addClass('current');
+
+        el.appendTo(menu);
+      });
+
+      menu.on('click', 'a', function() {
+        var link = $(this),
+            control = link.parent(),
+            language = link.attr('href').replace('#', '');
+
+        control.addClass('current').siblings().removeClass('current');
+        self.translate(language);
+      });
+
+      menu.appendTo(target);
+    },
+    /**
+     * @returns {Array} A list of items in the LANGUAGES object that also have data in the TRANSLATIONS object.
+     */
+    availableLanguages: function() {
+      var availableCodes = {},
+          result = [];
+
+      $.each(translations, function(idx, translation) {
+        $.each(translation, function(code) {
+          availableCodes[code] = true;
+        });
+      });
+
+      $.each(languages, function(idx, language) {
+        if (availableCodes[language.code])
+          result.push(language);
+      });
+
+      return result;
+    },
+    /**
+     * Finds all the text nodes in the document.
+     * @returns {jQuery} jQuery-encapsulated array of text nodes.
+     */
+    textNodes: function() {
+      var textNodes = $('body').find(':not(iframe, .wpt-menu, .wpt-menu *)').addBack().contents().filter(function() {
+        return this.nodeType == 3;
+      });
+
+      return textNodes;
     }
-
   }
-
-};
+}

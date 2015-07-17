@@ -1,0 +1,32 @@
+.wpt-menu {
+    display: inline-block;
+    list-style: none outside;
+    margin: 0;
+    padding: .5em 1em;
+    border: 1px solid #000;
+}
+
+.wpt-menu li {
+    display: inline-block;
+    padding: 0 .5em;
+    border-right: 1px solid #000;
+}
+
+.wpt-menu li:last-child {
+    border: none;
+}
+
+.wpt-menu li.current a {
+    text-decoration: none;
+    cursor: default;
+    color: #000;
+    font-weight: bold;
+}
+
+body>.wpt-menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-top: none;
+    border-right: none;
+}
